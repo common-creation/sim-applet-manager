@@ -28,7 +28,7 @@ function AppletList() {
     }, [openInstallDialog]);
 
     return (
-        <Box mt={0} display={"flex"} flexDirection={"column"} flex={1} sx={{ background: "#f7f9fb" }}>
+        <Box mt={0} display={"flex"} flexDirection={"column"} flex={1} sx={{ background: "#f7f9fb" }} overflow={"hidden"}>
             {SimStore.keys.length > 1 && (
                 <Tabs variant="fullWidth" value={tabIndex} onChange={(e, v) => setTabIndex(v)}>
                     {SimStore.keys.map((key, index) => (
@@ -42,7 +42,7 @@ function AppletList() {
                     <Typography variant="h4" color={"text.secondary"}>アプレットがインストールされていません</Typography>
                 </Box>
             ) : (
-                <Box>
+                <Box overflow={"auto"}>
                     {SimStore.applets.map((pkg) => (
                         <Accordion key={pkg.package.hex}>
                             <AccordionSummary
@@ -87,6 +87,7 @@ function AppletList() {
                             </AccordionDetails>
                         </Accordion>
                     ))}
+                    <Box mb={"78px"} />
                 </Box>
             )
             }
