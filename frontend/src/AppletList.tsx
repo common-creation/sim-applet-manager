@@ -135,6 +135,7 @@ function AppletList() {
                             onChange={(event) => setParams(event.target.value)}
                             helperText={!params && "必須"}
                             error={!params}
+                            inputProps={{ sx: { background: "white" } }}
                         />
                     </FormControl>
                 </DialogContent>
