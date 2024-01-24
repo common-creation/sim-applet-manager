@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useStore } from "./stores";
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, FormControl, IconButton, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, FormControl, IconButton, Paper, Tab, Tabs, TextField, Typography } from "@mui/material";
 import { Add, Delete, ExpandMore, Refresh } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { SelectCapFilePath } from "../wailsjs/go/main/App";
@@ -30,66 +30,72 @@ function AppletList() {
     return (
         <Box mt={0} display={"flex"} flexDirection={"column"} flex={1} sx={{ background: "#f7f9fb" }} overflow={"hidden"}>
             {SimStore.keys.length > 1 && (
-                <Tabs variant="fullWidth" value={tabIndex} onChange={(e, v) => setTabIndex(v)}>
-                    {SimStore.keys.map((key, index) => (
-                        <Tab label={key.name} key={key.name + index} />
-                    ))}
-                </Tabs>
-            )}
-
-            {SimStore.applets.length === 0 ? (
-                <Box flex={1} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                    <Typography variant="h4" color={"text.secondary"}>アプレットがインストールされていません</Typography>
-                </Box>
-            ) : (
-                <Box overflow={"auto"}>
-                    {SimStore.applets.map((pkg) => (
-                        <Accordion key={pkg.package.hex}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMore />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <Box display={"flex"} alignItems={"center"}>
-                                    <Typography sx={{ fontFamily: "monospace" }}>
-                                        {pkg.package.hex}
-                                    </Typography>
-                                    <Typography variant="caption" color={"text.secondary"} sx={{ ml: 1, fontFamily: "monospace" }}>
-                                        {pkg.package.fingerPrint}
-                                    </Typography>
-                                </Box>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Box display={"flex"} flexDirection={"column"} alignItems={"flex-start"}>
-                                    <Typography variant="caption">
-                                        パッケージ内のアプレット
-                                    </Typography>
-                                    {pkg.applets.map((applet) => (
-                                        <Box display={"flex"} alignItems={"center"} key={applet.hex}>
-                                            <Typography sx={{ fontFamily: "monospace" }}>
-                                                {applet.hex}
-                                            </Typography>
-                                            <Typography variant="caption" color={"text.secondary"} sx={{ ml: 1, fontFamily: "monospace" }}>
-                                                {applet.fingerPrint}
-                                            </Typography>
-                                        </Box>
-                                    ))}
-                                </Box>
-                                <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
-                                    <Button
-                                        startIcon={<Delete />}
-                                        color="error"
-                                        onClick={() => SimStore.uninstallApplet(SimStore.keys[tabIndex], pkg.package.hex)}
-                                    >
-                                        削除
-                                    </Button>
-                                </Box>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-                    <Box mb={"78px"} />
-                </Box>
+                <Paper>
+                    <Tabs variant="fullWidth" value={tabIndex} onChange={(e, v) => setTabIndex(v)} sx={{ bgcolor: 'background.paper' }}>
+                        {
+                            SimStore.keys.map((key, index) => (
+                                <Tab label={key.name} key={key.name + index} />
+                            ))
+                        }
+                    </Tabs>
+                </Paper>
             )
+            }
+
+            {
+                SimStore.applets.length === 0 ? (
+                    <Box flex={1} display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                        <Typography variant="h4" color={"text.secondary"}>アプレットがインストールされていません</Typography>
+                    </Box>
+                ) : (
+                    <Box overflow={"auto"} p={2}>
+                        {SimStore.applets.map((pkg) => (
+                            <Accordion key={pkg.package.hex}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMore />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    <Box display={"flex"} alignItems={"center"}>
+                                        <Typography sx={{ fontFamily: "monospace" }}>
+                                            {pkg.package.hex}
+                                        </Typography>
+                                        <Typography variant="caption" color={"text.secondary"} sx={{ ml: 1, fontFamily: "monospace" }}>
+                                            {pkg.package.fingerPrint}
+                                        </Typography>
+                                    </Box>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Box display={"flex"} flexDirection={"column"} alignItems={"flex-start"}>
+                                        <Typography variant="caption">
+                                            パッケージ内のアプレット
+                                        </Typography>
+                                        {pkg.applets.map((applet) => (
+                                            <Box display={"flex"} alignItems={"center"} key={applet.hex}>
+                                                <Typography sx={{ fontFamily: "monospace" }}>
+                                                    {applet.hex}
+                                                </Typography>
+                                                <Typography variant="caption" color={"text.secondary"} sx={{ ml: 1, fontFamily: "monospace" }}>
+                                                    {applet.fingerPrint}
+                                                </Typography>
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                    <Box display={"flex"} justifyContent={"flex-end"} mt={2}>
+                                        <Button
+                                            startIcon={<Delete />}
+                                            color="error"
+                                            onClick={() => SimStore.uninstallApplet(SimStore.keys[tabIndex], pkg.package.hex)}
+                                        >
+                                            削除
+                                        </Button>
+                                    </Box>
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
+                        <Box mb={"78px"} />
+                    </Box>
+                )
             }
             <Box position={"fixed"} bottom={16} right={16}>
                 <Fab disabled={!SimStore.iccid || SimStore.keys.length === 0} size="small" sx={{ mr: 2 }} onClick={() => SimStore.listApplets(SimStore.keys[tabIndex])}><Refresh /></Fab>
@@ -147,7 +153,7 @@ function AppletList() {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Box>
+        </Box >
     );
 }
 
