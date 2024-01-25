@@ -1,6 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { GetGpPath, ListCardReader, FetchSimInfo, SaveSimConfig, ShowErrorDialog, ListApplets, UninstallApplet, ShowConfirmDialog, InstallApplet } from '../../wailsjs/go/main/App';
 import { db, gp, main } from '../../wailsjs/go/models';
+import { LogStore } from "./LogStore";
 
 export const SimStore = () => {
   return makeAutoObservable({
@@ -23,6 +24,7 @@ export const SimStore = () => {
         console.error(e);
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
     },
 
@@ -37,6 +39,7 @@ export const SimStore = () => {
         console.error(e);
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
     },
 
@@ -62,6 +65,7 @@ export const SimStore = () => {
         console.error(e);
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
       return {} as main.SimInfo;
     },
@@ -90,6 +94,7 @@ export const SimStore = () => {
         await ShowErrorDialog("エラー", "設定の保存に失敗しました");
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
     },
 
@@ -103,6 +108,7 @@ export const SimStore = () => {
         await ShowErrorDialog("エラー", "アプレットの取得に失敗しました");
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
     },
 
@@ -124,6 +130,7 @@ export const SimStore = () => {
         await ShowErrorDialog("エラー", "アプレットの削除に失敗しました");
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
     },
 
@@ -142,6 +149,7 @@ export const SimStore = () => {
         await ShowErrorDialog("エラー", "アプレットのインストールに失敗しました");
       } finally {
         document.body.classList.remove("loading");
+        LogStore.reset();
       }
       return false;
     },

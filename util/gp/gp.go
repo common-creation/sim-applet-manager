@@ -13,6 +13,8 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/apppath"
 	"github.com/common-creation/sim-applet-manager/util/cap"
 	"github.com/common-creation/sim-applet-manager/util/db"
+
+	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type (
@@ -102,6 +104,7 @@ func Run(ctx context.Context, option RunOption) Result {
 		for scanner.Scan() {
 			line := scanner.Text()
 			println(line)
+			wailsRutime.EventsEmit(ctx, "gpLogs", line)
 			outputBuilder.WriteString(line + "\n")
 		}
 		if err := scanner.Err(); err != nil {
@@ -116,6 +119,7 @@ func Run(ctx context.Context, option RunOption) Result {
 		for scanner.Scan() {
 			line := scanner.Text()
 			println(line)
+			wailsRutime.EventsEmit(ctx, "gpLogs", line)
 			outputBuilder.WriteString(line + "\n")
 		}
 		if err := scanner.Err(); err != nil {
