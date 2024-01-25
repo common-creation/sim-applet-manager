@@ -47,7 +47,9 @@ func (a *App) ListCardReader() []string {
 func (a *App) FetchSimInfo(cardReader string) SimInfo {
 	simInfo := SimInfo{}
 	for i := 5; i < 10; i += 2 {
+		cardreader.ResetOnMacOS(cardReader)
 		result := gp.GetICCID(a.ctx, cardReader)
+		cardreader.ResetOnMacOS(cardReader)
 		if result == "" {
 			return SimInfo{}
 		}
@@ -55,6 +57,7 @@ func (a *App) FetchSimInfo(cardReader string) SimInfo {
 			simInfo.ICCID = result
 			break
 		}
+
 		time.Sleep(time.Duration(i) * time.Second)
 	}
 	config, err := db.GetSimConfig(a.ctx, simInfo.ICCID)

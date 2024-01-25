@@ -53,6 +53,18 @@ func Path(ctx context.Context) string {
 		if _, err := exec.Command(gpPath, "--help").Output(); err == nil {
 			return gpPath
 		}
+		if stdout, err := exec.Command("/opt/homebrew/bin/brew", "--prefix").Output(); err == nil {
+			gpPath = filepath.Join(strings.TrimSpace(string(stdout)), "bin", "gp")
+		}
+		if _, err := exec.Command(gpPath, "--help").Output(); err == nil {
+			return gpPath
+		}
+		if stdout, err := exec.Command("/usr/local/bin/brew", "--prefix").Output(); err == nil {
+			gpPath = filepath.Join(strings.TrimSpace(string(stdout)), "bin", "gp")
+		}
+		if _, err := exec.Command(gpPath, "--help").Output(); err == nil {
+			return gpPath
+		}
 	} else {
 		if _, err := exec.Command("gp.exe", "--help").Output(); err == nil {
 			return "gp.exe"
@@ -98,7 +110,6 @@ func Run(ctx context.Context, option RunOption) Result {
 
 	outputBuilder := strings.Builder{}
 
-	// 標準出力を読み取るゴルーチン
 	go func() {
 		scanner := bufio.NewScanner(stdoutPipe)
 		for scanner.Scan() {
@@ -113,7 +124,6 @@ func Run(ctx context.Context, option RunOption) Result {
 		}
 	}()
 
-	// 標準エラー出力を読み取るゴルーチン
 	go func() {
 		scanner := bufio.NewScanner(stderrPipe)
 		for scanner.Scan() {
