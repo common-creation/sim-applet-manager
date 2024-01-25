@@ -1,28 +1,33 @@
-import {useState} from 'react';
-import logo from './assets/images/logo-universal.png';
-import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import "./App.css";
+import useDidMount from "beautiful-react-hooks/useDidMount";
+import { observer } from "mobx-react-lite";
+import { useStore } from "./stores";
+import TopSelector from "./TopSelector";
+import AppletList from "./AppletList";
+import SimConfig from "./SimConfig";
+import Loading from "./Loading";
+import { Box } from "@mui/material";
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+    const { SimStore } = useStore();
 
-    function greet() {
-        Greet(name).then(updateResultText);
-    }
+    useDidMount(async () => {
+        try {
+            document.body.classList.add("lockloading");
+            await Promise.all([SimStore.fetchGpPath(), SimStore.listCardReader()])
+        } finally {
+            document.body.classList.remove("lockloading");
+        }
+    });
 
     return (
-        <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
-        </div>
-    )
+        <Box id="App" display={"flex"} flexDirection={"column"}>
+            <Loading />
+            <TopSelector />
+            <AppletList />
+            <SimConfig />
+        </Box>
+    );
 }
 
-export default App
+export default observer(App);
