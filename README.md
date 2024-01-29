@@ -1,6 +1,8 @@
 # SIM Applet Manager
 
-![](https://i.imgur.com/ox9RQ7g.png)
+[![build](https://github.com/common-creation/sim-applet-manager/actions/workflows/build.yml/badge.svg)](https://github.com/common-creation/sim-applet-manager/actions/workflows/build.yml)
+
+![](https://i.imgur.com/N5RbVPH.png)
 
 ## 概要
 
