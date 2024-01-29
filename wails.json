@@ -9,5 +9,11 @@
   "author": {
     "name": "mohemohe",
     "email": "jun.kasamatsu@common-creation.com"
+  },
+  "info": {
+    "productName": "SIMAppletManager",
+    "productVersion": "1.0.1",
+    "companyName": "COMMON CREATION, Co., Ltd.",
+    "copyright": "© 2024 COMMON CREATION, Co., Ltd. All rights reserved."
   }
 }

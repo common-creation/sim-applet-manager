@@ -1,19 +1,26 @@
-# README
+# SIM Applet Manager
 
-## About
+![](https://i.imgur.com/ox9RQ7g.png)
 
-This is the official Wails React-TS template.
+## 概要
 
-You can configure the project by editing `wails.json`. More information about the project settings can be found
-here: https://wails.io/docs/reference/project-config
+[NTTコミュニケーションズ株式会社](https://www.ntt.com/)より提供されている、[IoT Connect Mobile Type S](https://sdpf.ntt.com/services/icms/)のeSIM内のSIMアプレットを管理するためのGUIアプリケーションです。
 
-## Live Development
+[martinpaljak/GlobalPlatformPro](https://github.com/martinpaljak/GlobalPlatformPro)のフロントエンドなので、その他キャリアから提供されているeSIMでも使用できる場合があります。
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+## 動作環境
 
-## Building
+### macOS
 
-To build a redistributable, production mode package, use `wails build`.
+- Mac OS X 10.13 またはそれ以降
+- homebrewがインストールされていること
+- martinpaljak/GlobalPlatformProがインストールされていること
+  - `brew install martinpaljak/brew/gppro --HEAD`
+
+### Windows
+
+// TODO:
+
+## LICENSE
+
+MIT
