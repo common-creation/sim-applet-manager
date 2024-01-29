@@ -13,8 +13,7 @@ jobs:
   package:
     strategy:
       matrix:
-        # platform: [windows-latest, macos-latest]
-        platform: [macos-latest]
+        platform: [windows-latest, macos-latest]
         go-version: [1.21]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -32,6 +31,10 @@ jobs:
       # wails.jsonでフロントエンドのビルドおよびインストールコマンドを設定していない場合、ここで手動でフロントエンドをビルドする必要があるかもしれません。
       - name: Get Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+      - name: Get NSIS
+        if: matrix.platform == 'windows-latest'
+        run: |
+          choco install nsis
       - name: Build Wails app for macOS
         if: matrix.platform == 'macos-latest'
         run: |
@@ -39,7 +42,7 @@ jobs:
       - name: Build Wails app for Windows
         if: matrix.platform == 'windows-latest'
         run: |
-          wails build -clean
+          wails build -nsis -clean
       - name: Import codesign certs
         if: matrix.platform == 'macos-latest'
         uses: apple-actions/import-codesign-certs@v1
@@ -73,13 +76,13 @@ jobs:
           xcrun stapler staple "build/dmg/$DMG"
       - name: upload artifacts macOS
         if: matrix.platform == 'macos-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: sim-applet-manager-macos
           path: build/dmg/*
       - name: upload artifacts windows
         if: matrix.platform == 'windows-latest'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: sim-applet-manager-windows
-          path: build/bin/*
+          path: build/bin/SIMAppletManager-amd64-installer.exe
