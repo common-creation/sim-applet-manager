@@ -114,7 +114,9 @@ export const SimStore = () => {
 
     async uninstallApplet(key: db.Key, aid: string) {
       try {
-        if (await ShowConfirmDialog("確認", `${aid} を削除しますか?`) !== "OK") {
+        const select = await ShowConfirmDialog("確認", `${aid} を削除しますか?`);
+        console.log(select);
+        if (select !== "OK" && select !== "Yes") {
           return;
         }
 

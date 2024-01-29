@@ -60,8 +60,10 @@ func (a *App) FetchSimInfo(cardReader string) SimInfo {
 
 		time.Sleep(time.Duration(i) * time.Second)
 	}
+	println("GetSimConfig", simInfo.ICCID)
 	config, err := db.GetSimConfig(a.ctx, simInfo.ICCID)
 	if err != nil {
+		fmt.Printf("GetSimConfig err: %+v\n", err)
 		return simInfo
 	}
 	simInfo.Config = *config

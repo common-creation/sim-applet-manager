@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"sync"
 
 	"go.etcd.io/bbolt"
 )
@@ -21,7 +22,12 @@ type (
 	}
 )
 
+var mutex = sync.Mutex{}
+
 func GetSimConfig(ctx context.Context, iccid string) (*Sim, error) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	db, err := openDB(ctx)
 	if err != nil {
 		// TODO
@@ -30,8 +36,11 @@ func GetSimConfig(ctx context.Context, iccid string) (*Sim, error) {
 	defer db.Close()
 
 	var sim Sim
-	err = db.View(func(tx *bbolt.Tx) error {
-		b := tx.Bucket([]byte("sims"))
+	err = db.Update(func(tx *bbolt.Tx) error {
+		b, err := tx.CreateBucketIfNotExists([]byte("sims"))
+		if err != nil {
+			return err
+		}
 		simJson := b.Get([]byte(iccid))
 		if simJson == nil {
 			return errors.New("sim not found")
@@ -45,6 +54,9 @@ func GetSimConfig(ctx context.Context, iccid string) (*Sim, error) {
 }
 
 func PutSimConfig(ctx context.Context, iccid string, sim *Sim) error {
+	mutex.Lock()
+	defer mutex.Unlock()
+
 	db, err := openDB(ctx)
 	if err != nil {
 		// TODO
