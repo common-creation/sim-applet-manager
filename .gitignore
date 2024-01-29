@@ -4,3 +4,7 @@ node_modules
 frontend/dist
 
 .DS_Store
+
+build/windows/installer/tmp/
+
+build/windows/installer/wails_tools.nsh
