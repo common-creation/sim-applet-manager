@@ -102,5 +102,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/bin/SIMAppletManager-amd64-installer.exe
-          asset_name: SIMAppletManager-amd64-installer.exe
+          asset_name: SIMAppletManager-installer.exe
           tag: ${{ github.ref }}
