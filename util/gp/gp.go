@@ -12,6 +12,7 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/apdu"
 	"github.com/common-creation/sim-applet-manager/util/apppath"
 	"github.com/common-creation/sim-applet-manager/util/cap"
+	"github.com/common-creation/sim-applet-manager/util/command"
 	"github.com/common-creation/sim-applet-manager/util/db"
 
 	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
@@ -66,12 +67,13 @@ func Path(ctx context.Context) string {
 			return gpPath
 		}
 	} else {
-		if _, err := exec.Command("gp.exe", "--help").Output(); err == nil {
-			return "gp.exe"
-		}
+		cmd1 := exec.Command("gp.exe", "--help")
+		command.HideWindow(cmd1)
 
 		gpPath = filepath.Join(apppath.MustAppDirPath(ctx), "gp.exe")
-		if _, err := exec.Command(gpPath, "--help").Output(); err == nil {
+		cmd2 := exec.Command(gpPath, "--help")
+		command.HideWindow(cmd2)
+		if _, err := cmd2.Output(); err == nil {
 			return gpPath
 		}
 	}
@@ -103,6 +105,9 @@ func Run(ctx context.Context, option RunOption) Result {
 		// TODO: エラーダイアログ
 		panic(err)
 	}
+
+	command.HideWindow(cmd)
+
 	if err := cmd.Start(); err != nil {
 		// TODO: エラーダイアログ
 		panic(err)

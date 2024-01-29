@@ -1,13 +1,15 @@
-name: build
+name: publish
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    tags:
+      - v*
 
 concurrency:
-  group: build-${{ github.ref }}
+  group: publish-${{ github.ref }}
+
+permissions:
+  contents: write
 
 jobs:
   package:
@@ -86,3 +88,19 @@ jobs:
         with:
           name: sim-applet-manager-windows
           path: build/bin/SIMAppletManager-amd64-installer.exe
+      - name: Upload DMG to release
+        if: matrix.platform == 'macos-latest'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/dmg/SIMAppletManager.dmg
+          asset_name: SIMAppletManager.dmg
+          tag: ${{ github.ref }}
+      - name: Upload exe to release
+        if: matrix.platform == 'windows-latest'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/bin/SIMAppletManager-amd64-installer.exe
+          asset_name: SIMAppletManager-amd64-installer.exe
+          tag: ${{ github.ref }}
