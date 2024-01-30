@@ -1,8 +1,12 @@
-//go:build darwin
+//go:build windows
 
 package command
 
-import "os/exec"
+import (
+	"os/exec"
+	"syscall"
+)
 
 func HideWindow(cmd *exec.Cmd) {
+	cmd.SysProcAttr = &syscall.SysProcAttr{HideWindow: true}
 }
