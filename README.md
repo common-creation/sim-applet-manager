@@ -21,7 +21,10 @@
 
 ### Windows
 
-// TODO:
+- Windows 10 またはそれ以降
+- Windows 10 の場合は [WebView2](https://developer.microsoft.com/ja-jp/microsoft-edge/webview2) がインストールされていること
+- martinpaljak/GlobalPlatformPro v20.08.12 以降がインストールされていること
+  - https://github.com/martinpaljak/GlobalPlatformPro/releases/tag/v20.08.12
 
 ## LICENSE
 
