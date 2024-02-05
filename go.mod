@@ -7,6 +7,7 @@ toolchain go1.21.1
 require (
 	github.com/go-ole/go-ole v1.3.0
 	github.com/samber/lo v1.39.0
+	github.com/tidwall/gjson v1.17.0
 	github.com/wailsapp/wails/v2 v2.7.1
 	go.etcd.io/bbolt v1.3.8
 )
@@ -28,6 +29,8 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/stretchr/testify v1.8.3 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
