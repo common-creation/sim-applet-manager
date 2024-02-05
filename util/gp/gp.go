@@ -14,6 +14,7 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/cap"
 	"github.com/common-creation/sim-applet-manager/util/command"
 	"github.com/common-creation/sim-applet-manager/util/db"
+	"github.com/common-creation/sim-applet-manager/util/log"
 
 	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -148,6 +149,8 @@ func Run(ctx context.Context, option RunOption) Result {
 		println(err)
 	}
 	println("done!")
+
+	log.WriteString(ctx, outputBuilder.String())
 
 	return Result{
 		Success: cmd.ProcessState.Success(),

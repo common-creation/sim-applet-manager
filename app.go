@@ -9,6 +9,7 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/cardreader"
 	"github.com/common-creation/sim-applet-manager/util/db"
 	"github.com/common-creation/sim-applet-manager/util/gp"
+	"github.com/common-creation/sim-applet-manager/util/log"
 
 	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -34,6 +35,7 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	apppath.MustAppDirPath(ctx)
+	log.Rotate(ctx)
 }
 
 func (a *App) GetGpPath() string {
