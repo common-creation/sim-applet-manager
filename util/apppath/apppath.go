@@ -5,15 +5,17 @@ import (
 	"os"
 	"path/filepath"
 
-	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
+	"github.com/common-creation/sim-applet-manager/util/i18n"
+
+	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func MustAppDirPath(ctx context.Context) string {
+func MustAppDirPath(ctx context.Context, i18n *i18n.I18n) string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
-		wailsRutime.MessageDialog(ctx, wailsRutime.MessageDialogOptions{
-			Title:         "ディレクトリ エラー",
-			Type:          wailsRutime.ErrorDialog,
+		wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
+			Title:         i18n.T("directoryError"),
+			Type:          wailsRuntime.ErrorDialog,
 			Message:       "ユーザーホームディレクトリを取得できません",
 			Buttons:       []string{"OK"},
 			DefaultButton: "OK",
@@ -26,9 +28,9 @@ func MustAppDirPath(ctx context.Context) string {
 		if os.IsNotExist(err) {
 			os.MkdirAll(gpnDir, 0755)
 		} else {
-			wailsRutime.MessageDialog(ctx, wailsRutime.MessageDialogOptions{
-				Title:         "ディレクトリ エラー",
-				Type:          wailsRutime.ErrorDialog,
+			wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
+				Title:         i18n.T("directoryError"),
+				Type:          wailsRuntime.ErrorDialog,
 				Message:       "アプリケーション ディレクトリを作成できません",
 				Buttons:       []string{"OK"},
 				DefaultButton: "OK",
@@ -36,9 +38,9 @@ func MustAppDirPath(ctx context.Context) string {
 			panic(err)
 		}
 	} else if !info.IsDir() {
-		wailsRutime.MessageDialog(ctx, wailsRutime.MessageDialogOptions{
-			Title:         "ディレクトリ エラー",
-			Type:          wailsRutime.ErrorDialog,
+		wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
+			Title:         i18n.T("directoryError"),
+			Type:          wailsRuntime.ErrorDialog,
 			Message:       "アプリケーション ディレクトリがコンフリクトしています",
 			Buttons:       []string{"OK"},
 			DefaultButton: "OK",

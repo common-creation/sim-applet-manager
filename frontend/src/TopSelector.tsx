@@ -4,7 +4,7 @@ import { Box, Fab, FormControl, Grid, IconButton, MenuItem, Paper, Select, Toolt
 import { Refresh, Check, Warning, Error, Settings } from "@mui/icons-material";
 
 function TopSelector() {
-    const { SimStore } = useStore();
+    const { SimStore, I18nStore: i18n } = useStore();
 
     return (
         <Box sx={{ position: "relative" }}>
@@ -18,7 +18,7 @@ function TopSelector() {
                                 <Error color="error" />
                             )}
                             <Box ml={1}>
-                                GlobalPlatformPro パス
+                                {i18n.t("gpPath")}
                             </Box>
                         </Box>
                     </Grid>
@@ -42,7 +42,7 @@ function TopSelector() {
                                 <Error color="error" />
                             )}
                             <Box ml={1}>
-                                カードリーダー
+                                {i18n.t("cardReader")}
                             </Box>
                         </Box>
                     </Grid>
@@ -74,7 +74,7 @@ function TopSelector() {
                                     {SimStore.keys.length > 0 ? (
                                         <Check color="success" />
                                     ) : (
-                                        <Tooltip title="AID, 各種キーが未設定です。歯車アイコンから設定してください">
+                                        <Tooltip title={i18n.t("keyError")}>
                                             <Warning color="warning" />
                                         </Tooltip>
                                     )}

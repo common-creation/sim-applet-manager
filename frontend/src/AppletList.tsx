@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { SelectCapFilePath } from "../wailsjs/go/main/App";
 
 function AppletList() {
-    const { SimStore } = useStore();
+    const { SimStore, I18nStore: i18n } = useStore();
     const [tabIndex, setTabIndex] = useState(0);
     const [openInstallDialog, setOpenInstallDialog] = useState(false);
     const [capPath, setCapPath] = useState("");
@@ -45,7 +45,7 @@ function AppletList() {
             {
                 SimStore.applets.length === 0 ? (
                     <Box flex={1} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                        <Typography variant="h4" color={"text.secondary"}>アプレットがインストールされていません</Typography>
+                        <Typography variant="h4" color={"text.secondary"}>{i18n.t("appletNotInstalled")}</Typography>
                     </Box>
                 ) : (
                     <Box overflow={"auto"} p={2}>
@@ -68,7 +68,7 @@ function AppletList() {
                                 <AccordionDetails>
                                     <Box display={"flex"} flexDirection={"column"} alignItems={"flex-start"}>
                                         <Typography variant="caption">
-                                            パッケージ内のアプレット
+                                            {i18n.t("aidInPackage")}
                                         </Typography>
                                         {pkg.applets.map((applet) => (
                                             <Box display={"flex"} alignItems={"center"} key={applet.hex}>
@@ -87,7 +87,7 @@ function AppletList() {
                                             color="error"
                                             onClick={() => SimStore.uninstallApplet(SimStore.keys[tabIndex], pkg.package.hex)}
                                         >
-                                            削除
+                                            {i18n.t("uninstall")}
                                         </Button>
                                     </Box>
                                 </AccordionDetails>
@@ -102,14 +102,14 @@ function AppletList() {
                 <Fab color="primary" disabled={!SimStore.iccid || SimStore.keys.length === 0} onClick={() => setOpenInstallDialog(true)}><Add /></Fab>
             </Box>
             <Dialog open={openInstallDialog} fullWidth maxWidth={"xl"} PaperProps={{ sx: { height: "100%" } }}>
-                <DialogTitle alignItems={"flex-start"}>アプレット インストール</DialogTitle>
+                <DialogTitle alignItems={"flex-start"}>{i18n.t("installApplet")}</DialogTitle>
                 <DialogContent dividers sx={{ background: "#f7f9fb" }}>
                     <FormControl fullWidth>
                         <Box display={"flex"} alignItems={"start"}>
                             <TextField
-                                label={"CAP ファイル パス"}
+                                label={i18n.t("pathOfCapFile")}
                                 value={capPath}
-                                helperText={!capPath && "必須"}
+                                helperText={!capPath && i18n.t("required")}
                                 error={!capPath}
                                 disabled
                                 sx={{ flex: 1 }}
@@ -124,23 +124,23 @@ function AppletList() {
                                     setCapPath(filePath);
                                 }}
                             >
-                                選択
+                                {i18n.t("select")}
                             </Button>
                         </Box>
                     </FormControl>
                     <FormControl fullWidth sx={{ mt: 2 }}>
                         <TextField
-                            label={"C9 パラメータ"}
+                            label={i18n.t("c9Params")}
                             value={params}
                             onChange={(event) => setParams(event.target.value)}
-                            helperText={!params && "必須"}
+                            helperText={!params && i18n.t("required")}
                             error={!params}
                             inputProps={{ sx: { background: "white" } }}
                         />
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpenInstallDialog(false)} color="inherit">キャンセル</Button>
+                    <Button onClick={() => setOpenInstallDialog(false)} color="inherit">{i18n.t("cancel")}</Button>
                     <Button
                         disabled={!capPath || !params}
                         onClick={async () => {
@@ -150,7 +150,7 @@ function AppletList() {
                             }
                         }}
                     >
-                        インストール
+                        {i18n.t("install")}
                     </Button>
                 </DialogActions>
             </Dialog>

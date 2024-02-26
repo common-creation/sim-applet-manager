@@ -153,6 +153,10 @@ func ResetOnMacOS(cardReader string) {
 		for scanner.Scan() {
 			line := strings.TrimSpace(scanner.Text())
 			println(line)
+			if strings.Contains(line, "Waiting for card insertion") {
+				_ = cmd.Process.Kill()
+				break
+			}
 			if strings.HasPrefix(line, "Reader ") {
 				readers++
 				readerName := strings.TrimSpace(strings.Split(line, ":")[1])
