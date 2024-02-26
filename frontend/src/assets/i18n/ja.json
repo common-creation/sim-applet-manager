@@ -1,0 +1,22 @@
+{
+  "cardReader": "カードリーダー",
+  "gpPath": "GlobalPlatformPro パス",
+  "keyError": "AID, 各種キーが未設定です。歯車アイコンから設定してください",
+  "appletNotInstalled": "アプレットがインストールされていません",
+  "keySetting": "設定 {0}",
+  "name": "名前",
+  "aidInPackage": "パッケージ内のアプレット",
+  "uninstall": "アンインストール",
+  "installApplet": "アプレット インストール",
+  "pathOfCapFile": "CAP ファイル パス",
+  "c9Params": "C9 パラメーター",
+  "install": "インストール",
+  "cancel": "キャンセル",
+  "required": "必須",
+  "select": "選択",
+  "selectCapFile": "CAP ファイルを選択",
+  "directoryError": "ディレクトリ エラー",
+  "errorGetUserDir": "ユーザーのホームディレクトリを取得できません",
+  "errorCreateAppDir": "アプリケーション ディレクトリを作成できません",
+  "errorAppDirConflict": "アプリケーション ディレクトリがコンフリクトしています"
+}

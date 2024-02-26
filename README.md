@@ -2,6 +2,8 @@
 
 [![build](https://github.com/common-creation/sim-applet-manager/actions/workflows/build.yml/badge.svg)](https://github.com/common-creation/sim-applet-manager/actions/workflows/build.yml)
 
+An [English version](./README_EN.md) is available.
+
 ![](https://i.imgur.com/N5RbVPH.png)
 
 ## 概要

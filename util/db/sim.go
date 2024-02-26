@@ -6,6 +6,7 @@ import (
 	"errors"
 	"sync"
 
+	"github.com/common-creation/sim-applet-manager/util/i18n"
 	"go.etcd.io/bbolt"
 )
 
@@ -24,11 +25,11 @@ type (
 
 var mutex = sync.Mutex{}
 
-func GetSimConfig(ctx context.Context, iccid string) (*Sim, error) {
+func GetSimConfig(ctx context.Context, i18n *i18n.I18n, iccid string) (*Sim, error) {
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	db, err := openDB(ctx)
+	db, err := openDB(ctx, i18n)
 	if err != nil {
 		// TODO
 		return nil, err
@@ -53,11 +54,11 @@ func GetSimConfig(ctx context.Context, iccid string) (*Sim, error) {
 	return &sim, nil
 }
 
-func PutSimConfig(ctx context.Context, iccid string, sim *Sim) error {
+func PutSimConfig(ctx context.Context, i18n *i18n.I18n, iccid string, sim *Sim) error {
 	mutex.Lock()
 	defer mutex.Unlock()
 
-	db, err := openDB(ctx)
+	db, err := openDB(ctx, i18n)
 	if err != nil {
 		// TODO
 		return err
