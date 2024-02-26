@@ -1,0 +1,22 @@
+{
+  "cardReader": "Card reader",
+  "gpPath": "Path of GlobalPlatformPro",
+  "keyError": "AID and various keys are not set. Please set from the gear icon.",
+  "appletNotInstalled": "Applet is not installed",
+  "keySetting": "Setting {0}",
+  "name": "Name",
+  "aidInPackage": "Applet(s) in package",
+  "uninstall": "Uninstall",
+  "installApplet": "Install applet",
+  "pathOfCapFile": "Path of CAP file",
+  "c9Params": "C9 parameters",
+  "install": "Install",
+  "cancel": "Cancel",
+  "required": "Required",
+  "select": "Select",
+  "selectCapFile": "Select a CAP file",
+  "directoryError": "Directory Error",
+  "errorGetUserDir": "Unable to get the path to the user's home directory",
+  "errorCreateAppDir": "Unable to create application directory",
+  "errorAppDirConflict": "Application directory is conflicted"
+}

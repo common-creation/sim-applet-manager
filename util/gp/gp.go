@@ -14,9 +14,10 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/cap"
 	"github.com/common-creation/sim-applet-manager/util/command"
 	"github.com/common-creation/sim-applet-manager/util/db"
+	"github.com/common-creation/sim-applet-manager/util/i18n"
 	"github.com/common-creation/sim-applet-manager/util/log"
 
-	wailsRutime "github.com/wailsapp/wails/v2/pkg/runtime"
+	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type (
@@ -39,7 +40,7 @@ type (
 	}
 )
 
-func Path(ctx context.Context) string {
+func Path(ctx context.Context, i18n *i18n.I18n) string {
 	gpPath := ""
 
 	if runtime.GOOS == "darwin" {
@@ -71,7 +72,7 @@ func Path(ctx context.Context) string {
 		cmd1 := exec.Command("gp.exe", "--help")
 		command.HideWindow(cmd1)
 
-		gpPath = filepath.Join(apppath.MustAppDirPath(ctx), "gp.exe")
+		gpPath = filepath.Join(apppath.MustAppDirPath(ctx, i18n), "gp.exe")
 		cmd2 := exec.Command(gpPath, "--help")
 		command.HideWindow(cmd2)
 		if _, err := cmd2.Output(); err == nil {
@@ -82,8 +83,8 @@ func Path(ctx context.Context) string {
 	return ""
 }
 
-func Run(ctx context.Context, option RunOption) Result {
-	gpPath := Path(ctx)
+func Run(ctx context.Context, i18n *i18n.I18n, option RunOption) Result {
+	gpPath := Path(ctx, i18n)
 	if gpPath == "" {
 		// TODO: エラーダイアログ
 		return Result{
@@ -121,7 +122,7 @@ func Run(ctx context.Context, option RunOption) Result {
 		for scanner.Scan() {
 			line := scanner.Text()
 			println(line)
-			wailsRutime.EventsEmit(ctx, "gpLogs", line)
+			wailsRuntime.EventsEmit(ctx, "gpLogs", line)
 			outputBuilder.WriteString(line + "\n")
 		}
 		if err := scanner.Err(); err != nil {
@@ -135,7 +136,7 @@ func Run(ctx context.Context, option RunOption) Result {
 		for scanner.Scan() {
 			line := scanner.Text()
 			println(line)
-			wailsRutime.EventsEmit(ctx, "gpLogs", line)
+			wailsRuntime.EventsEmit(ctx, "gpLogs", line)
 			outputBuilder.WriteString(line + "\n")
 		}
 		if err := scanner.Err(); err != nil {
@@ -150,7 +151,7 @@ func Run(ctx context.Context, option RunOption) Result {
 	}
 	println("done!")
 
-	log.WriteString(ctx, outputBuilder.String())
+	log.WriteString(ctx, i18n, outputBuilder.String())
 
 	return Result{
 		Success: cmd.ProcessState.Success(),
@@ -158,8 +159,8 @@ func Run(ctx context.Context, option RunOption) Result {
 	}
 }
 
-func GetICCID(ctx context.Context, cardReader string) string {
-	result := Run(ctx, RunOption{
+func GetICCID(ctx context.Context, i18n *i18n.I18n, cardReader string) string {
+	result := Run(ctx, i18n, RunOption{
 		CardReader: cardReader,
 		GpArgs: []string{
 			"-a", "A0A40000023F00",
@@ -208,8 +209,8 @@ func extractPackageFingerPrint(input string) string {
 	return strings.Trim(matches[0], "|")
 }
 
-func ListApplets(ctx context.Context, cardReader string, key db.Key) []ListResult {
-	result := Run(ctx, RunOption{
+func ListApplets(ctx context.Context, i18n *i18n.I18n, cardReader string, key db.Key) []ListResult {
+	result := Run(ctx, i18n, RunOption{
 		CardReader: cardReader,
 		GpArgs: []string{
 			"--connect", key.AID,
@@ -251,8 +252,8 @@ func ListApplets(ctx context.Context, cardReader string, key db.Key) []ListResul
 	return applets
 }
 
-func UninstallApplet(ctx context.Context, cardReader string, key db.Key, aid string) Result {
-	return Run(ctx, RunOption{
+func UninstallApplet(ctx context.Context, i18n *i18n.I18n, cardReader string, key db.Key, aid string) Result {
+	return Run(ctx, i18n, RunOption{
 		CardReader: cardReader,
 		GpArgs: []string{
 			"--connect", key.AID,
@@ -265,7 +266,7 @@ func UninstallApplet(ctx context.Context, cardReader string, key db.Key, aid str
 	})
 }
 
-func InstallApplet(ctx context.Context, cardReader string, key db.Key, capPath string, params string) Result {
+func InstallApplet(ctx context.Context, i18n *i18n.I18n, cardReader string, key db.Key, capPath string, params string) Result {
 	capFiles, err := cap.UnZipInMemory(capPath)
 	if err != nil {
 		return Result{
@@ -277,12 +278,12 @@ func InstallApplet(ctx context.Context, cardReader string, key db.Key, capPath s
 	aid := extractPackageAidHex(strings.ToUpper(strings.ReplaceAll(strings.ReplaceAll(manifest["Java-Card-Package-AID"], "0x", ""), ":", "")))
 	println("AID:", aid)
 
-	pkgs := ListApplets(ctx, cardReader, key)
+	pkgs := ListApplets(ctx, i18n, cardReader, key)
 
 	for _, pkg := range pkgs {
 		println(pkg.Package.Hex, aid, pkg.Package.Hex == aid)
 		if pkg.Package.Hex == aid {
-			UninstallApplet(ctx, cardReader, key, pkg.Package.Hex)
+			UninstallApplet(ctx, i18n, cardReader, key, pkg.Package.Hex)
 		}
 	}
 
@@ -296,7 +297,7 @@ func InstallApplet(ctx context.Context, cardReader string, key db.Key, capPath s
 	if params != "" {
 		gpArgs = append(gpArgs, "--param", params)
 	}
-	return Run(ctx, RunOption{
+	return Run(ctx, i18n, RunOption{
 		CardReader: cardReader,
 		GpArgs:     gpArgs,
 	})

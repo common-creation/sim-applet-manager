@@ -5,7 +5,7 @@ import { Add, Delete, ExpandMore } from "@mui/icons-material";
 import { useRef } from "react";
 
 function AppletList() {
-    const { SimStore } = useStore();
+    const { SimStore, I18nStore: i18n } = useStore();
     const descriptionElementRef = useRef<HTMLElement>(null);
 
     return (
@@ -24,12 +24,12 @@ function AppletList() {
                                 aria-controls="panel1-content"
                                 id="panel1-header"
                             >
-                                設定 {index + 1}
+                                {i18n.t("keySetting", `${index + 1}`)}
                             </AccordionSummary>
                             <AccordionDetails>
                                 <FormControl fullWidth>
                                     <TextField
-                                        label={"名前"}
+                                        label={i18n.t("name")}
                                         value={SimStore.editKeys[index].name}
                                         onChange={(event) => SimStore.editKeys[index].name = event.target.value}
                                         helperText={!SimStore.editKeys[index].name && "必須"}
