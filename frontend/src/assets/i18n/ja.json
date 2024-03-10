@@ -12,11 +12,14 @@
   "c9Params": "C9 パラメーター",
   "install": "インストール",
   "cancel": "キャンセル",
+  "save": "保存",
+  "delete": "削除",
   "required": "必須",
   "select": "選択",
   "selectCapFile": "CAP ファイルを選択",
   "directoryError": "ディレクトリ エラー",
   "errorGetUserDir": "ユーザーのホームディレクトリを取得できません",
   "errorCreateAppDir": "アプリケーション ディレクトリを作成できません",
-  "errorAppDirConflict": "アプリケーション ディレクトリがコンフリクトしています"
+  "errorAppDirConflict": "アプリケーション ディレクトリがコンフリクトしています",
+  "updateAvailable": "アップデートが利用可能です ({0})"
 }

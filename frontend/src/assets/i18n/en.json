@@ -12,11 +12,14 @@
   "c9Params": "C9 parameters",
   "install": "Install",
   "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
   "required": "Required",
   "select": "Select",
   "selectCapFile": "Select a CAP file",
   "directoryError": "Directory Error",
   "errorGetUserDir": "Unable to get the path to the user's home directory",
   "errorCreateAppDir": "Unable to create application directory",
-  "errorAppDirConflict": "Application directory is conflicted"
+  "errorAppDirConflict": "Application directory is conflicted",
+  "updateAvailable": "Update available ({0})"
 }
