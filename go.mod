@@ -12,6 +12,7 @@ require (
 	github.com/tidwall/gjson v1.17.0
 	github.com/wailsapp/wails/v2 v2.7.1
 	go.etcd.io/bbolt v1.3.8
+	golang.org/x/mod v0.12.0
 )
 
 require (

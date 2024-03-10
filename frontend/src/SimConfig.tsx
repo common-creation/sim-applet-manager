@@ -32,7 +32,7 @@ function AppletList() {
                                         label={i18n.t("name")}
                                         value={SimStore.editKeys[index].name}
                                         onChange={(event) => SimStore.editKeys[index].name = event.target.value}
-                                        helperText={!SimStore.editKeys[index].name && "必須"}
+                                        helperText={!SimStore.editKeys[index].name && i18n.t("required")}
                                         error={!SimStore.editKeys[index].name}
                                     />
                                 </FormControl>
@@ -41,7 +41,7 @@ function AppletList() {
                                         label={"AID"}
                                         value={SimStore.editKeys[index].aid}
                                         onChange={(event) => SimStore.editKeys[index].aid = event.target.value}
-                                        helperText={!SimStore.editKeys[index].aid && "必須"}
+                                        helperText={!SimStore.editKeys[index].aid && i18n.t("required")}
                                         error={!SimStore.editKeys[index].aid}
                                     />
                                 </FormControl>
@@ -50,7 +50,7 @@ function AppletList() {
                                         label={"ENC Key"}
                                         value={SimStore.editKeys[index].encKey}
                                         onChange={(event) => SimStore.editKeys[index].encKey = event.target.value}
-                                        helperText={!SimStore.editKeys[index].encKey && "必須"}
+                                        helperText={!SimStore.editKeys[index].encKey && i18n.t("required")}
                                         error={!SimStore.editKeys[index].encKey}
                                     />
                                 </FormControl>
@@ -59,7 +59,7 @@ function AppletList() {
                                         label={"MAC Key"}
                                         value={SimStore.editKeys[index].macKey}
                                         onChange={(event) => SimStore.editKeys[index].macKey = event.target.value}
-                                        helperText={!SimStore.editKeys[index].macKey && "必須"}
+                                        helperText={!SimStore.editKeys[index].macKey && i18n.t("required")}
                                         error={!SimStore.editKeys[index].macKey}
                                     />
                                 </FormControl>
@@ -68,7 +68,7 @@ function AppletList() {
                                         label={"KEK Key"}
                                         value={SimStore.editKeys[index].kekKey}
                                         onChange={(event) => SimStore.editKeys[index].kekKey = event.target.value}
-                                        helperText={!SimStore.editKeys[index].kekKey && "必須"}
+                                        helperText={!SimStore.editKeys[index].kekKey && i18n.t("required")}
                                         error={!SimStore.editKeys[index].kekKey}
                                     />
                                 </FormControl>
@@ -79,7 +79,7 @@ function AppletList() {
                                         color="error"
                                         onClick={() => SimStore.editKeys.splice(index, 1)}
                                     >
-                                        削除
+                                        {i18n.t("delete")}
                                     </Button>
                                 </Box>
                             </AccordionDetails>
@@ -93,12 +93,12 @@ function AppletList() {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => SimStore.setOpenSimConfig(false)} color="inherit">キャンセル</Button>
+                <Button onClick={() => SimStore.setOpenSimConfig(false)} color="inherit">{i18n.t("cancel")}</Button>
                 <Button
                     disabled={SimStore.editKeys.some(key => Object.values(key).includes(""))}
                     onClick={() => SimStore.saveSimConfig()}
                 >
-                    保存
+                    {i18n.t("save")}
                 </Button>
             </DialogActions>
         </Dialog>

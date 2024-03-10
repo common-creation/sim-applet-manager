@@ -16,11 +16,11 @@ var assets embed.FS
 var wailsJSON string
 
 func main() {
-	// Create an instance of the app structure
-	app := NewApp()
-
 	// Get version from wails.json
 	version := gjson.Get(wailsJSON, "info.productVersion").String()
+
+	// Create an instance of the app structure
+	app := NewApp(version)
 
 	// Create application with options
 	err := wails.Run(&options.App{

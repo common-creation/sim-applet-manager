@@ -2,7 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/common-creation/sim-applet-manager/util/apppath"
@@ -11,6 +15,9 @@ import (
 	"github.com/common-creation/sim-applet-manager/util/gp"
 	"github.com/common-creation/sim-applet-manager/util/i18n"
 	"github.com/common-creation/sim-applet-manager/util/log"
+	"github.com/tidwall/gjson"
+
+	"golang.org/x/mod/semver"
 
 	wailsRuntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -18,8 +25,9 @@ import (
 type (
 	// App struct
 	App struct {
-		ctx  context.Context
-		i18n *i18n.I18n
+		ctx     context.Context
+		i18n    *i18n.I18n
+		version string
 	}
 	SimInfo struct {
 		ICCID  string `json:"iccid"`
@@ -28,9 +36,10 @@ type (
 )
 
 // NewApp creates a new App application struct
-func NewApp() *App {
+func NewApp(version string) *App {
 	return &App{
-		i18n: i18n.NewI18n(),
+		i18n:    i18n.NewI18n(),
+		version: version,
 	}
 }
 
@@ -124,4 +133,39 @@ func (a *App) SelectCapFilePath() string {
 
 func (a *App) InstallApplet(cardReader string, key db.Key, capPath string, params string) gp.Result {
 	return gp.InstallApplet(a.ctx, a.i18n, cardReader, key, capPath, params)
+}
+
+func formatVersion(v string) string {
+	if !strings.HasPrefix(v, "v") {
+		return semver.Canonical("v" + v)
+	}
+	return semver.Canonical(v)
+}
+
+func (a *App) CheckUpdate() string {
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+	res, err := client.Get("https://api.github.com/repos/common-creation/sim-applet-manager/releases/latest")
+	if err != nil {
+		return ""
+	}
+	defer res.Body.Close()
+	b, err := io.ReadAll(res.Body)
+	if err != nil {
+		return ""
+	}
+	m := map[string]interface{}{}
+	err = json.Unmarshal(b, &m)
+	if err != nil {
+		return ""
+	}
+
+	currentVersion := a.version
+	remoteVersion := gjson.Get(string(b), "tag_name").String()
+	println("currentVersion", formatVersion(currentVersion), ",", "v:", formatVersion(remoteVersion), semver.Compare(formatVersion(currentVersion), formatVersion(remoteVersion)))
+	if semver.Compare(formatVersion(currentVersion), formatVersion(remoteVersion)) < 0 {
+		return remoteVersion
+	}
+	return ""
 }

@@ -16,7 +16,7 @@ func MustAppDirPath(ctx context.Context, i18n *i18n.I18n) string {
 		wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
 			Title:         i18n.T("directoryError"),
 			Type:          wailsRuntime.ErrorDialog,
-			Message:       "ユーザーホームディレクトリを取得できません",
+			Message:       i18n.T("errorGetUserDir"),
 			Buttons:       []string{"OK"},
 			DefaultButton: "OK",
 		})
@@ -31,7 +31,7 @@ func MustAppDirPath(ctx context.Context, i18n *i18n.I18n) string {
 			wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
 				Title:         i18n.T("directoryError"),
 				Type:          wailsRuntime.ErrorDialog,
-				Message:       "アプリケーション ディレクトリを作成できません",
+				Message:       i18n.T("errorCreateAppDir"),
 				Buttons:       []string{"OK"},
 				DefaultButton: "OK",
 			})
@@ -41,7 +41,7 @@ func MustAppDirPath(ctx context.Context, i18n *i18n.I18n) string {
 		wailsRuntime.MessageDialog(ctx, wailsRuntime.MessageDialogOptions{
 			Title:         i18n.T("directoryError"),
 			Type:          wailsRuntime.ErrorDialog,
-			Message:       "アプリケーション ディレクトリがコンフリクトしています",
+			Message:       i18n.T("errorAppDirConflict"),
 			Buttons:       []string{"OK"},
 			DefaultButton: "OK",
 		})

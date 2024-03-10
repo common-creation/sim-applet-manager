@@ -4,6 +4,8 @@ import {main} from '../models';
 import {db} from '../models';
 import {gp} from '../models';
 
+export function CheckUpdate():Promise<string>;
+
 export function FetchSimInfo(arg1:string):Promise<main.SimInfo>;
 
 export function GetGpPath():Promise<string>;
